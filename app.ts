@@ -49,7 +49,7 @@ const handleNewCallHangupEvent = async (data: ICallEntry) => {
   if (!data.Channel.startsWith("PJSIP")) return; // ignore other channel hangups
   if (!data.Channel.includes(process.env.AMI_TRUNK || "KlexHub")) return;
   console.log("[INFO] Hangup: ", data);
-  return;
+
   /**
    * Try ten times to fetch the file from remote sftp server.
    * If it fails, send a message with audio file unaviable.
