@@ -58,7 +58,7 @@ const handleNewCallHangupEvent = async (data: ICallEntry) => {
   var interval = 10000; //one second
   let index = 1;
   const intervalWaiterForFileProcesser = setInterval(async () => {
-    const audioFileFilter = `${data.Uniqueid}.wav`;
+    const audioFileFilter = `${data.Linkedid}.wav`;
 
     await downloadAudioRecord(audioFileFilter);
     console.log("[INFO] Try to fetch audios (" + index + ")");
