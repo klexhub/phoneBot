@@ -147,11 +147,4 @@ const sendRecordingWebhook = async (fileName: string, data: ICallEntry) => {
     });
 };
 
-/**
- *
- *
- *
- *
- */
-
 setup();
