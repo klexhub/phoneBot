@@ -18,7 +18,7 @@ const setup = async () => {
       host: process.env.SFTP_DOMAIN || "sip.klex",
       port: process.env.SFTP_PORT || "22",
       username: process.env.SFTP_USERNAME,
-      privateKey: fs.readFileSync(process.env.SFTP_PRIVATE_KEY_FILE || ""),
+      privateKey: process.env.SFTP_PRIVATE_KEY,
     })
     .then(() => console.error("[INFO] SFTP connection successful!"))
     .catch((e: any) => console.error("[ERROR] SFTP connection failed: ", e));
@@ -146,4 +146,11 @@ const sendRecordingWebhook = async (fileName: string, data: ICallEntry) => {
     });
 };
 
-setup();
+/**
+ * Dont let the app crash when a error occurs
+ */
+try {
+  setup();
+} catch (e) {
+  console.log("[ERROR]", e);
+}

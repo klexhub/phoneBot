@@ -1,0 +1,31 @@
+#This will build the docker image and push it to kuberntes docker registry
+#
+
+name: Deploy to kuberntes (dev01)
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build docker image & push to k8net registry
+        uses: mr-smithers-excellent/docker-build-push@v5.6
+        with:
+          image: klexhub/klexhub-phone-bot
+          dockerfile: Dockerfile
+          tags: latest
+          registry: ${{ secrets.DOCKER_REGISTRY_HOST }}
+          username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
+          password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+
+      - name: Prepare and build kuberntes config
+        run: ./scripts/k8s-deploy.sh
+      - name: Deploy to kuberntes (dev01)
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_DEV01_CONFIG }}
+        with:
+          args: apply -f k8s/prod.yml
