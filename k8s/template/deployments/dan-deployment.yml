@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: $APP-dan
+  labels:
+    app: $APP-dan
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: $APP-dan
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: $APP-dan
+    spec:
+      dnsPolicy: "None"
+      dnsConfig:
+        nameservers:
+          - 10.0.0.2
+      containers:
+        - name: $APP-dan
+          image: $IMAGE
+          resources:
+            requests:
+              cpu: 100m
+              memory: 200Mi
+            limits:
+              cpu: 200m
+              memory: 400Mi
+          envFrom:
+            - secretRef:
+                name: klexhub-dan-phonebot-env
+          env:
+            - name: SFTP_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: sip-klex-ssh-key
+                  key: SFTP_PRIVATE_KEY
+      imagePullSecrets:
+        - name: k8net-registry-secret
