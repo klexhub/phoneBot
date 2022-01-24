@@ -32,7 +32,7 @@ const setup = async () => {
     .then((amiConnection: any) => {
       client
         .on("connect", () => console.log("connect"))
-        .on("disconnect", () => console.log("disconnect"))
+        .on("disconnect", () => process.exit(1))
         .on("reconnection", () => console.log("reconnection"))
         .on("internalError", (error: any) => console.log(error))
         .on("Hangup", (data: ICallEntry) => handleNewCallHangupEvent(data));
