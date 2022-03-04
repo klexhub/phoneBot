@@ -5,7 +5,7 @@ metadata:
   labels:
     app: $APP
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: $APP
@@ -23,16 +23,11 @@ spec:
       dnsConfig:
         nameservers:
           - 10.0.0.2
+      nodeSelector:
+        storage: "true"
       containers:
         - name: $APP
           image: $IMAGE
-          resources:
-            requests:
-              cpu: 100m
-              memory: 200Mi
-            limits:
-              cpu: 200m
-              memory: 400Mi
           envFrom:
             - secretRef:
                 name: klexhub-phonebot-env

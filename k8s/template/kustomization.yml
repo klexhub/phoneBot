@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - deployments/klexhub-deployment.yml
   - deployments/dan-deployment.yml
-  - hpa.yml
