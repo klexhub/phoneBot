@@ -24,7 +24,7 @@ spec:
         nameservers:
           - 10.0.0.2
       nodeSelector:
-        storage: "true"
+        storage: "false"
       containers:
         - name: $APP-dan
           image: $IMAGE
